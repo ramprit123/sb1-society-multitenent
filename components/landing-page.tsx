@@ -1,63 +1,96 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Building2, Users, Shield, Calendar, CreditCard, MessageSquare, CheckCircle2 } from 'lucide-react';
-import Link from 'next/link';
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Building2,
+  Users,
+  Shield,
+  Calendar,
+  CreditCard,
+  MessageSquare,
+  CheckCircle2,
+} from "lucide-react";
+import Link from "next/link";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 const features = [
   {
     icon: Building2,
-    title: 'Multi-Tenant Management',
-    description: 'Manage multiple societies with isolated data and custom branding'
+    title: "Multi-Tenant Management",
+    description:
+      "Manage multiple societies with isolated data and custom branding",
   },
   {
     icon: Users,
-    title: 'Role-Based Access',
-    description: 'Admin, Manager, Resident, and Security role management'
+    title: "Role-Based Access",
+    description: "Admin, Manager, Resident, and Security role management",
   },
   {
     icon: CreditCard,
-    title: 'Maintenance Billing',
-    description: 'Automated billing, payment tracking, and receipt generation'
+    title: "Maintenance Billing",
+    description: "Automated billing, payment tracking, and receipt generation",
   },
   {
     icon: MessageSquare,
-    title: 'Complaint Management',
-    description: 'Track and resolve complaints with status updates'
+    title: "Complaint Management",
+    description: "Track and resolve complaints with status updates",
   },
   {
     icon: Shield,
-    title: 'Visitor Management',
-    description: 'Security workflows for visitor check-in and approval'
+    title: "Visitor Management",
+    description: "Security workflows for visitor check-in and approval",
   },
   {
     icon: Calendar,
-    title: 'Event Management',
-    description: 'Organize events, track contributions, and manage attendance'
-  }
+    title: "Event Management",
+    description: "Organize events, track contributions, and manage attendance",
+  },
 ];
 
 const plans = [
   {
-    name: 'Basic',
-    price: '$29',
-    description: 'Perfect for small societies',
-    features: ['Up to 50 units', 'Basic reporting', 'Email support', 'Mobile app access']
+    name: "Basic",
+    price: "$29",
+    description: "Perfect for small societies",
+    features: [
+      "Up to 50 units",
+      "Basic reporting",
+      "Email support",
+      "Mobile app access",
+    ],
   },
   {
-    name: 'Premium',
-    price: '$79',
-    description: 'Ideal for medium societies',
-    features: ['Up to 200 units', 'Advanced reporting', 'Priority support', 'Custom branding', 'API access']
+    name: "Premium",
+    price: "$79",
+    description: "Ideal for medium societies",
+    features: [
+      "Up to 200 units",
+      "Advanced reporting",
+      "Priority support",
+      "Custom branding",
+      "API access",
+    ],
   },
   {
-    name: 'Enterprise',
-    price: '$199',
-    description: 'For large societies',
-    features: ['Unlimited units', 'White-label solution', '24/7 support', 'Custom integrations', 'Dedicated manager']
-  }
+    name: "Enterprise",
+    price: "$199",
+    description: "For large societies",
+    features: [
+      "Unlimited units",
+      "White-label solution",
+      "24/7 support",
+      "Custom integrations",
+      "Dedicated manager",
+    ],
+  },
 ];
 
 export default function LandingPage() {
@@ -69,16 +102,23 @@ export default function LandingPage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
               <Building2 className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold text-gray-900">SocietyHub</span>
+              <span className="text-xl font-bold text-gray-900">
+                Society Hub
+              </span>
             </div>
-            <div className="flex items-center space-x-4">
-              <Link href="/sign-in">
-                <Button variant="ghost">Sign In</Button>
-              </Link>
-              <Link href="/sign-up">
-                <Button>Get Started</Button>
-              </Link>
-            </div>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            <SignedOut>
+              <div className="flex items-center space-x-4">
+                <Link href="/sign-in">
+                  <Button variant="ghost">Sign In</Button>
+                </Link>
+                <Link href="/sign-up">
+                  <Button>Get Started</Button>
+                </Link>
+              </div>
+            </SignedOut>
           </div>
         </div>
       </nav>
@@ -94,11 +134,13 @@ export default function LandingPage() {
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
             Modern Society
             <span className="text-blue-600"> Management</span>
-            <br />Made Simple
+            <br />
+            Made Simple
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Streamline your residential society operations with our comprehensive SaaS platform. 
-            From maintenance billing to visitor management, we've got you covered.
+            Streamline your residential society operations with our
+            comprehensive SaaS platform. From maintenance billing to visitor
+            management, we've got you covered.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/sign-up">
@@ -125,10 +167,11 @@ export default function LandingPage() {
             Everything You Need
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Comprehensive features designed specifically for residential society management
+            Comprehensive features designed specifically for residential society
+            management
           </p>
         </motion.div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <motion.div
@@ -178,7 +221,11 @@ export default function LandingPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.1 * index }}
               >
-                <Card className={`h-full ${index === 1 ? 'ring-2 ring-blue-600 scale-105' : ''}`}>
+                <Card
+                  className={`h-full ${
+                    index === 1 ? "ring-2 ring-blue-600 scale-105" : ""
+                  }`}
+                >
                   <CardHeader className="text-center">
                     <CardTitle className="text-2xl">{plan.name}</CardTitle>
                     <div className="text-4xl font-bold text-blue-600">
@@ -196,7 +243,10 @@ export default function LandingPage() {
                         </li>
                       ))}
                     </ul>
-                    <Button className="w-full mt-6" variant={index === 1 ? 'default' : 'outline'}>
+                    <Button
+                      className="w-full mt-6"
+                      variant={index === 1 ? "default" : "outline"}
+                    >
                       Get Started
                     </Button>
                   </CardContent>

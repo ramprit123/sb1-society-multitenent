@@ -1,8 +1,8 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Society, User } from '@/types';
-import { useUser } from '@clerk/nextjs';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { Society, User } from "@/types";
+import { useUser } from "@clerk/nextjs";
 
 interface SocietyContextType {
   currentSociety: Society | null;
@@ -28,36 +28,36 @@ export function SocietyProvider({ children }: { children: React.ReactNode }) {
       // Mock societies data
       const mockSocieties: Society[] = [
         {
-          id: '1',
-          name: 'Green Valley Apartments',
-          address: '123 Main St, City, State 12345',
-          primaryColor: '#3B82F6',
-          secondaryColor: '#10B981',
+          id: "1",
+          name: "Green Valley Apartments",
+          address: "123 Main St, City, State 12345",
+          primaryColor: "#3B82F6",
+          secondaryColor: "#10B981",
           totalUnits: 120,
           createdAt: new Date(),
-          plan: 'premium'
+          plan: "premium",
         },
         {
-          id: '2',
-          name: 'Sunset Residency',
-          address: '456 Oak Ave, City, State 67890',
-          primaryColor: '#F59E0B',
-          secondaryColor: '#EF4444',
+          id: "2",
+          name: "Sunset Residency",
+          address: "456 Oak Ave, City, State 67890",
+          primaryColor: "#F59E0B",
+          secondaryColor: "#EF4444",
           totalUnits: 85,
           createdAt: new Date(),
-          plan: 'basic'
-        }
+          plan: "basic",
+        },
       ];
 
       // Mock user data
       const mockUser: User = {
         id: clerkUser.id,
-        email: clerkUser.emailAddresses[0]?.emailAddress || '',
-        name: clerkUser.fullName || 'User',
-        role: 'admin', // This would be determined by your backend
-        societyId: '1',
-        unitNumber: 'A-101',
-        phone: '+1234567890'
+        email: clerkUser.emailAddresses[0]?.emailAddress || "",
+        name: clerkUser.fullName || "User",
+        role: "admin", // This would be determined by your backend
+        societyId: "1",
+        unitNumber: "A-101",
+        phone: "+1234567890",
       };
 
       setSocieties(mockSocieties);
@@ -68,7 +68,7 @@ export function SocietyProvider({ children }: { children: React.ReactNode }) {
   }, [clerkUser]);
 
   const switchSociety = (societyId: string) => {
-    const society = societies.find(s => s.id === societyId);
+    const society = societies.find((s) => s.id === societyId);
     if (society) {
       setCurrentSociety(society);
     }
@@ -78,19 +78,23 @@ export function SocietyProvider({ children }: { children: React.ReactNode }) {
     if (currentSociety) {
       const updatedSociety = { ...currentSociety, ...updates };
       setCurrentSociety(updatedSociety);
-      setSocieties(societies.map(s => s.id === updatedSociety.id ? updatedSociety : s));
+      setSocieties(
+        societies.map((s) => (s.id === updatedSociety.id ? updatedSociety : s))
+      );
     }
   };
 
   return (
-    <SocietyContext.Provider value={{
-      currentSociety,
-      currentUser,
-      societies,
-      switchSociety,
-      updateSociety,
-      isLoading
-    }}>
+    <SocietyContext.Provider
+      value={{
+        currentSociety,
+        currentUser,
+        societies,
+        switchSociety,
+        updateSociety,
+        isLoading,
+      }}
+    >
       {children}
     </SocietyContext.Provider>
   );
@@ -99,7 +103,7 @@ export function SocietyProvider({ children }: { children: React.ReactNode }) {
 export function useSociety() {
   const context = useContext(SocietyContext);
   if (context === undefined) {
-    throw new Error('useSociety must be used within a SocietyProvider');
+    throw new Error("useSociety must be used within a SocietyProvider");
   }
   return context;
 }
